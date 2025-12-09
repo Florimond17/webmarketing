@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solfy - L'Éducation Musicale 2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            overflow-x: hidden;
+            background: #f8f9fb;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6C63FF 0%, #4ECDC4 100%);
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '🐙';
+            position: absolute;
+            font-size: 180px;
+            opacity: 0.15;
+            top: -40px;
+            right: 8%;
+            animation: float 6s ease-in-out infinite;
+            filter: hue-rotate(20deg);
+        }
+
+        .hero::after {
+            content: '🐙';
+            position: absolute;
+            font-size: 140px;
+            opacity: 0.15;
+            bottom: -20px;
+            left: 5%;
+            animation: float 8s ease-in-out infinite;
+            transform: scaleX(-1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #FF6B9D;
+            color: white;
+            padding: 18px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: #FF5A8C;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Before/After Section */
+        .before-after {
+            padding: 100px 0;
+            background: white;
+            position: relative;
+        }
+
+        .before-after h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: #6C63FF;
+            font-weight: 800;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .comparison-card {
+            background: #f8f9fb;
+            padding: 45px;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(108, 99, 255, 0.1);
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(108, 99, 255, 0.2);
+        }
+
+        .comparison-card.before {
+            border-color: #FF6B9D;
+            background: linear-gradient(135deg, #fff 0%, #fff5f8 100%);
+        }
+
+        .comparison-card.after {
+            border-color: #4ECDC4;
+            background: linear-gradient(135deg, #fff 0%, #f0fffe 100%);
+        }
+
+        .comparison-card h3 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .comparison-card.before h3 {
+            color: #FF6B9D;
+        }
+
+        .comparison-card.after h3 {
+            color: #4ECDC4;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            font-size: 1.05em;
+        }
+
+        .comparison-card.before li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #FF6B9D;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .comparison-card.after li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ECDC4;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: #f8f9fb;
+            position: relative;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: #6C63FF;
+            font-weight: 800;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px;
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: white;
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.1);
+            border: 2px solid transparent;
+        }
+
+        .feature-card:nth-child(1) {
+            border-color: #6C63FF;
+        }
+
+        .feature-card:nth-child(2) {
+            border-color: #FF6B9D;
+        }
+
+        .feature-card:nth-child(3) {
+            border-color: #4ECDC4;
+        }
+
+        .feature-card:nth-child(4) {
+            border-color: #FFD93D;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 50px rgba(108, 99, 255, 0.25);
+        }
+
+        .feature-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card:hover .feature-icon {
+            animation: none;
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .feature-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #5a6c7d;
+            line-height: 1.7;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #6C63FF 0%, #4ECDC4 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials::before {
+            content: '🐙';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.08;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .stat-item h3 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: #FFD93D;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #FFD93D;
+            font-size: 1.05em;
+        }
+
+        /* How it works */
+        .how-it-works {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: #6C63FF;
+            font-weight: 800;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #6C63FF 0%, #4ECDC4 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover .step-number {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 12px 35px rgba(108, 99, 255, 0.4);
+        }
+
+        .step h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+
+        /* Reassurance */
+        .reassurance {
+            padding: 100px 0;
+            background: #f8f9fb;
+        }
+
+        .reassurance h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: #6C63FF;
+            font-weight: 800;
+        }
+
+        .reassurance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .reassurance-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #4ECDC4;
+        }
+
+        .reassurance-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 40px rgba(108, 99, 255, 0.15);
+        }
+
+        .check-icon {
+            font-size: 2.5em;
+            color: #4ECDC4;
+            flex-shrink: 0;
+        }
+
+        .reassurance-item p {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* CTA Form */
+        .cta-form {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #6C63FF 0%, #4ECDC4 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-form::before {
+            content: '🐙';
+            position: absolute;
+            font-size: 250px;
+            opacity: 0.05;
+            top: -50px;
+            right: -50px;
+            transform: rotate(-20deg);
+        }
+
+        .cta-form h2 {
+            font-size: 2.8em;
+            margin-bottom: 40px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        form {
+            max-width: 550px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.05em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            font-size: 1em;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #FFD93D;
+            background: white;
+            box-shadow: 0 5px 20px rgba(255, 217, 61, 0.3);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 18px;
+            background: #FF6B9D;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+        }
+
+        button[type="submit"]:hover {
+            background: #FF5A8C;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.5);
+        }
+
+        .form-note {
+            margin-top: 25px;
+            font-size: 0.95em;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 2.8em;
+            margin-bottom: 60px;
+            color: #6C63FF;
+            font-weight: 800;
+        }
+
+        .faq-item {
+            background: #f8f9fb;
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #6C63FF;
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.08);
+        }
+
+        .faq-item:hover {
+            background: white;
+            transform: translateX(10px);
+            box-shadow: 0 10px 35px rgba(108, 99, 255, 0.15);
+            border-left-color: #FF6B9D;
+        }
+
+        .faq-question {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .faq-answer {
+            color: #5a6c7d;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: #4ECDC4;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            h2 {
+                font-size: 2em !important;
+            }
+
+            form {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>L'Éducation Musicale 2.0</h1>
+            <p>Enseigner mieux, sans en faire plus</p>
+            <p style="font-size: 1.1em; margin-bottom: 40px;">Transformez votre suivi pédagogique grâce à Solfy : exercices personnalisés, suivi digital précis et gamification pour motiver vos élèves. Simplifiez votre travail tout en rendant l'apprentissage du solfège plus ludique.</p>
+            <a href="#demo" class="cta-button">Demandez une démo gratuite dès maintenant</a>
+        </div>
+    </section>
+
+    <!-- Before/After Section -->
+    <section class="before-after">
+        <div class="container">
+            <h2>Pourquoi Solfy est fait pour votre classe</h2>
+            <div class="comparison">
+                <div class="comparison-card before">
+                    <h3>Avant Solfy</h3>
+                    <ul>
+                        <li>Carnet papier</li>
+                        <li>Suivi approximatif</li>
+                        <li>Élèves peu motivés</li>
+                        <li>Perte de temps pour corriger</li>
+                        <li>Préparation chronophage</li>
+                    </ul>
+                </div>
+                <div class="comparison-card after">
+                    <h3>Après Solfy</h3>
+                    <ul>
+                        <li>Suivi digital précis</li>
+                        <li>Tableau de bord clair</li>
+                        <li>Gamification motivante</li>
+                        <li>Exercices personnalisés</li>
+                        <li>Gain de temps considérable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Ce que Solfy peut faire pour vous</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Exercices personnalisés</h3>
+                    <p>Créez des exercices adaptés au niveau et aux progrès de chaque élève, alignés avec votre programme pédagogique.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Suivi digital et data-driven</h3>
+                    <p>Observez la progression de vos élèves en temps réel grâce à un tableau de bord simple et précis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Gamification et motivation</h3>
+                    <p>Transformez le solfège en jeu grâce aux défis et récompenses intégrés. Encouragez la pratique régulière.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Gain de temps</h3>
+                    <p>Préparez, attribuez et corrigez vos exercices plus rapidement. Concentrez-vous sur la pédagogie.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>La confiance de la communauté musicale</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>150+</h3>
+                    <p>Professeurs</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1 500+</h3>
+                    <p>Élèves</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1M+</h3>
+                    <p>Exercices réalisés</p>
+                </div>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"Mes élèves pratiquent plus régulièrement et j'ai gagné plusieurs heures de suivi chaque semaine grâce à Solfy. C'est un vrai partenaire pédagogique."</p>
+                    <div class="testimonial-author">– Mme Dupont, Conservatoire de Lille</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Solfy m'a permis de personnaliser les exercices de chacun de mes élèves et de suivre leur progression de manière claire et simple."</p>
+                    <div class="testimonial-author">– M. Martin, École de musique de Lyon</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>Comment Solfy fonctionne</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Créez</h3>
+                    <p>Créez un exercice en quelques clics</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Attribuez</h3>
+                    <p>Attribuez-le à vos élèves individuellement ou par groupe</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Suivez</h3>
+                    <p>Suivez leur progression en temps réel via le dashboard</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Analysez</h3>
+                    <p>Analysez les résultats pour ajuster votre pédagogie</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>Motivez</h3>
+                    <p>Les élèves sont motivés grâce aux défis et récompenses</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reassurance -->
+    <section class="reassurance">
+        <div class="container">
+            <h2>Solfy est votre partenaire pédagogique</h2>
+            <div class="reassurance-grid">
+                <div class="reassurance-item">
+                    <div class="check-icon">✓</div>
+                    <p>Compatible avec vos méthodes actuelles et programmes officiels</p>
+                </div>
+                <div class="reassurance-item">
+                    <div class="check-icon">✓</div>
+                    <p>Pas besoin d'être expert en digital pour utiliser la plateforme</p>
+                </div>
+                <div class="reassurance-item">
+                    <div class="check-icon">✓</div>
+                    <p>Vous restez au cœur de l'enseignement, Solfy vous soutient</p>
+                </div>
+                <div class="reassurance-item">
+                    <div class="check-icon">✓</div>
+                    <p>Sécurisé et simple à prendre en main pour vos élèves</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Form -->
+    <section class="cta-form" id="demo">
+        <div class="container">
+            <h2>Passez à l'Éducation Musicale 2.0 dès aujourd'hui</h2>
+            <form>
+                <div class="form-group">
+                    <label for="name">Nom et prénom</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="establishment">Établissement / Conservatoire</label>
+                    <input type="text" id="establishment" name="establishment" required>
+                </div>
+                <div class="form-group">
+                    <label for="level">Classe / Niveau des élèves</label>
+                    <input type="text" id="level" name="level" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="submit">Demander ma démo gratuite</button>
+                <p class="form-note">Essai gratuit, sans engagement. Testez Solfy dans votre classe et constatez la différence !</p>
+            </form>
+        </div>
+    </section>
+
+        <!-- FAQ -->
+<section class="faq">
+<div class="container">
+<h2>Vos questions, nos réponses</h2>
+<div class="faq-item">
+<div class="faq-question">Mes élèves sont trop jeunes pour utiliser l'application ?</div>
+<div class="faq-answer">Solfy est adapté à tous les niveaux et permet d'ajuster les exercices selon l'âge et le niveau des élèves.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Faut-il une tablette pour chaque élève ?</div>
+<div class="faq-answer">Non, Solfy fonctionne sur ordinateur, tablette ou smartphone. Vous pouvez attribuer des exercices individuels ou en groupe.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Est-ce compatible avec mon programme pédagogique ?</div>
+<div class="faq-answer">Oui, Solfy s'adapte à votre programme et vous permet de créer des exercices personnalisés.</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="#">Site officiel</a>
+            <a href="#">Contact</a>
+            <a href="#">Facebook</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Mentions légales</a>
+        </div>
+        <p>&copy; 2024 Solfy - Tous droits réservés</p>
+        <p style="margin-top: 20px;"><a href="#demo" style="color: #4ECDC4; font-weight: bold;">Demander une démo →</a></p>
+    </div>
+</footer>
+
+<script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Merci pour votre demande ! Notre équipe vous contactera très prochainement pour organiser votre démo personnalisée.');
+        this.reset();
+    });
+
+    // FAQ interaction effect
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', function() {
+            this.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
+</script>
+</body>
+</html></parameter>
